@@ -137,7 +137,7 @@ export function AnimatedLogo({ className = "h-8 w-auto" }: { className?: string 
         <motion.text
           x="75"
           y="28"
-          className="font-heading font-black text-2xl"
+          className="font-heading font-black text-4xl"
           fill="url(#textGradient)"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -148,7 +148,7 @@ export function AnimatedLogo({ className = "h-8 w-auto" }: { className?: string 
         <motion.text
           x="75"
           y="45"
-          className="font-sans font-semibold text-sm tracking-wider"
+          className="font-sans font-semibold text-xl tracking-wider"
           fill="url(#textGradient)"
           opacity="0.8"
           initial={{ opacity: 0, x: -20 }}

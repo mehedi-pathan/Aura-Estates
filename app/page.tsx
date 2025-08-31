@@ -1,3 +1,6 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { AnimatedLogo } from "@/components/animated-logo"
 import { Button } from "@/components/ui/button"
 import { PropertySearch } from "@/components/property-search"
@@ -6,7 +9,7 @@ import { TestimonialsSlider } from "@/components/testimonials-slider"
 import { ServicesPreview } from "@/components/services-preview"
 import { MarketInsights } from "@/components/market-insights"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { CheckCircle } from "lucide-react"
 import Link from "next/link"
 import { NewsletterSection } from "@/components/newsletter-section"
 import { WhyChooseUs } from "@/components/why-choose-us"
@@ -48,6 +51,37 @@ const featuredProperties = [
 ]
 
 export default function HomePage() {
+  // Quick Stats Animation
+  const stats = [
+    { value: 500, label: "Properties Sold" },
+    { value: 15, label: "Years Experience" },
+    { value: 98, label: "Client Satisfaction" },
+    { value: 24, label: "Support Available", suffix: "+" },
+  ]
+
+  const [counters, setCounters] = useState([0, 0, 0, 0])
+
+  useEffect(() => {
+    const duration = 2000
+    const frameRate = 30
+    const totalFrames = duration / frameRate
+    const increments = stats.map((stat) => stat.value / totalFrames)
+    let frame = 0
+
+    const interval = setInterval(() => {
+      frame++
+      setCounters((prev) =>
+        prev.map((count, i) => {
+          const next = count + increments[i]
+          return next >= stats[i].value ? stats[i].value : next
+        })
+      )
+      if (frame >= totalFrames) clearInterval(interval)
+    }, frameRate)
+
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
@@ -87,26 +121,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Quick Stats */}
+      {/* Quick Stats with Animated Numbers */}
       <section className="py-16 bg-card">
         <div className="container mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="font-heading font-black text-3xl md:text-4xl text-primary">500+</div>
-              <div className="text-sm text-muted-foreground">Properties Sold</div>
-            </div>
-            <div className="text-center">
-              <div className="font-heading font-black text-3xl md:text-4xl text-primary">15+</div>
-              <div className="text-sm text-muted-foreground">Years Experience</div>
-            </div>
-            <div className="text-center">
-              <div className="font-heading font-black text-3xl md:text-4xl text-primary">98%</div>
-              <div className="text-sm text-muted-foreground">Client Satisfaction</div>
-            </div>
-            <div className="text-center">
-              <div className="font-heading font-black text-3xl md:text-4xl text-primary">24/7</div>
-              <div className="text-sm text-muted-foreground">Support Available</div>
-            </div>
+            {stats.map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="font-heading font-black text-3xl md:text-4xl text-primary">
+                  {Math.floor(counters[i])}
+                  {stat.suffix || ""}
+                </div>
+                <div className="text-sm text-muted-foreground">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -226,110 +253,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-card py-12">
-        <div className="container mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div className="space-y-4">
-              <AnimatedLogo />
-              <p className="text-sm text-muted-foreground">
-                Your trusted partner in luxury real estate, delivering exceptional service and premium properties.
-              </p>
-              <div className="flex space-x-4">
-                <Button variant="ghost" size="icon">
-                  <Facebook className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Twitter className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Instagram className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Linkedin className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="font-heading font-bold">Quick Links</h4>
-              <div className="space-y-2 text-sm">
-                <Link href="/" className="block hover:text-primary transition-colors">
-                  Home
-                </Link>
-                <Link href="/listings" className="block hover:text-primary transition-colors">
-                  Properties
-                </Link>
-                <Link href="/services" className="block hover:text-primary transition-colors">
-                  Services
-                </Link>
-                <Link href="/about" className="block hover:text-primary transition-colors">
-                  About
-                </Link>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="font-heading font-bold">Services</h4>
-              <div className="space-y-2 text-sm">
-                <Link href="/services" className="block hover:text-primary transition-colors">
-                  Buy Property
-                </Link>
-                <Link href="/services" className="block hover:text-primary transition-colors">
-                  Sell Property
-                </Link>
-                <Link href="/services" className="block hover:text-primary transition-colors">
-                  Property Management
-                </Link>
-                <Link href="/services" className="block hover:text-primary transition-colors">
-                  Investment Consulting
-                </Link>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="font-heading font-bold">Contact Info</h4>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <p>123 Luxury Avenue</p>
-                <p>Beverly Hills, CA 90210</p>
-                <p>Phone: (555) 123-4567</p>
-                <p>Email: info@auraestates.com</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} Aura Estates. All rights reserved.
-            </p>
-            <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-sm text-muted-foreground mt-4 md:mt-0">
-              <div className="flex space-x-6">
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Terms of Service
-                </Link>
-                <Link href="#" className="hover:text-primary transition-colors">
-                  Cookie Policy
-                </Link>
-              </div>
-              <div className="text-xs">
-                Developed by{" "}
-                <Link
-                  href="https://mehedipathan.online/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary hover:underline font-medium"
-                >
-                  Mehedi Pathan
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
