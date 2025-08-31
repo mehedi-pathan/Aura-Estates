@@ -93,7 +93,7 @@ export default function HomePage() {
           </Badge>
           <h1 className="font-heading font-black text-4xl md:text-6xl lg:text-7xl text-balance">
             Discover Your
-            <span className="text-primary block">Dream Estate</span>
+            <span className="text-primary block">Dream Estates</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-pretty">
             Experience luxury living with Aura Estates. We specialize in premium properties that define elegance and
