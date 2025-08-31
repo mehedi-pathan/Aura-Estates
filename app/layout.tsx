@@ -30,7 +30,8 @@ export const metadata: Metadata = {
   title: "Aura Estates - Luxury Real Estate Agency",
   description: "Discover premium properties with Aura Estates. Your trusted partner in luxury real estate.",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png", // iOS
   },
 }
 
